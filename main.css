@@ -1,0 +1,29 @@
+:root{
+    --header-height: 15rem;
+    --footer-height: 20rem;
+}
+
+#containers{
+    color: black;
+}
+
+#site-wrapper{
+    box-sizing: border-box;
+    width: 100vw;
+    min-height: 100vh;
+    padding-bottom: var(--footer-height);
+    position: relative;
+    overflow-x: hidden;
+}
+header{
+    width: 100vw;
+    height: var(--header-height);
+    background: pink;
+}
+footer{
+    width: 100vw;
+    height: var(--footer-height);
+    background: pink;
+    position: absolute;
+    bottom: 0;
+}
