@@ -1,4 +1,7 @@
 class Info extends React.Component{
+    constructor(props){
+        super(props);
+    }
 
     render(){
         console.log("Infoです！");

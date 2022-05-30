@@ -15,12 +15,19 @@ class Farm extends React.Component{
         this.setState({resouse: this.state.resouse + gain});
     }
 
+    getResouseData(){
+        let data = {
+            resouse: this.state.resouse
+        }
+        return data;
+    }
+
     render(){
 
         return(
             <div id={"farm-container"}>
-                <Info />
-                <Objects />
+                <Info getResouseData={this.getResouseData} />
+                <Objects addResouse={this.addResouse} />
             </div>
         );
     }
