@@ -1,3 +1,4 @@
+
 // ヘッダー
 function Header(props){
     return(
@@ -23,7 +24,7 @@ function Main(props){
     return(
         <main>
             <div id="game-container">
-                ここはメイン（ゲーム画面）
+                <Farm />
             </div>
         </main>
     );
