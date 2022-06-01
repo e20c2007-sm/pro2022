@@ -3,6 +3,11 @@ class Info extends React.Component{
         super(props);
     }
 
+    // Farmの関数getResouceData()を実行
+    getResrcData = ()=>{
+        return this.props.getResouceData();
+    }
+
     render(){
         console.log("Infoです！");
 
