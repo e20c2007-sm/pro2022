@@ -4,7 +4,7 @@ function Header(props){
     return(
         <header>
             <div>
-                ここはヘッダーです。
+                {/* ここはヘッダーです。 */}
             </div>
         </header>
     );
@@ -14,7 +14,9 @@ function Header(props){
 function Footer(props){
     return(
         <footer>
-            <div>ここはフッターです。</div>
+            <div>
+                {/* ここはフッターです。 */}
+            </div>
         </footer>
     );
 }

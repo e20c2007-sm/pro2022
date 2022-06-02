@@ -9,10 +9,10 @@ class Objects extends React.Component{
     }
 
     render(){
-        console.log("Objectです！");
-
         return(
-            <div id={"obj-container"}></div>
+            <div id={"obj-container"}>
+                <b>山元</b>
+            </div>
         );
     }
 }
