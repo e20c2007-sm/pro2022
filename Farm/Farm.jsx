@@ -39,7 +39,7 @@ class Farm extends React.Component{
                 />
                 <Objects
                     getResouseData={this.getResouceData}
-                    addResouse={this.addResouce}
+                    addResource={(gain) => this.addResource(gain)}
                 />
             </div>
         );
