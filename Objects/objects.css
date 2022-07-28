@@ -1,5 +1,29 @@
-#obj-container{
+#obj-container {
     height: 85vh;
     width: 100vw;
-    background: #ff7e0e6e;
+    background: black;
+    text-align: center;
+}
+
+#add:hover{
+    animation: pulse 1s;
+    box-shadow: 0 0 0 2em transparent;
+    border-color: #ef6eae;
+    color: #fff;
+}
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 #ef6eae;
+    }
+}
+#add {
+    width: 40%;
+    background: none;
+    border: 2px solid;
+    font-size: 200%;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 3%;
+    color: #fff;
+    transition: 0.25s;
 }
