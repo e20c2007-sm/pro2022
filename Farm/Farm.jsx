@@ -5,8 +5,9 @@ class Farm extends React.Component{
 
         // State
         this.state = {
-            resouse: 0, //資源量（変動値）
+            resource: 0, //資源量（変動値）
             timeLog: 0, //プレイ時間（総計）
+            gain: 1,
             opt: {
                 // ここで生産量などを増加させる何かしらを追加していく
             }
@@ -14,32 +15,35 @@ class Farm extends React.Component{
     }
 
     //資源を生産する際の処理
-    addResouce(gain){
+    changeResource(gain){
         /*
             gain...増加値
         */
-        this.setState({resouse: this.state.resouse + gain});
+
+        this.setState({resource: this.state.resource + gain});
+        setTimeout(()=>{
+            console.log(this.sendResourceData());
+        }, 1000)
     }
 
     // Farmコンポーネントで扱っているデータを、
     // 子コンポーネントで取得するための関数
-    getResouceData(){
+    sendResourceData(){
         let data = {
-            resouse: this.state.resouse
+            resource: this.state.resource
         }
         return data;
     }
 
     render(){
-
         return(
             <div id={"farm-container"}>
                 <Info
-                    getResouseData={this.getResouceData}
+                    getresourceData={this.sendResourceData}
                 />
                 <Objects
-                    getResouseData={this.getResouceData}
-                    addResource={(gain) => this.addResource(gain)}
+                    getResourseData={this.sendResourceData}
+                    addResource={this.changeResource}
                 />
             </div>
         );

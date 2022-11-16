@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-#add:hover{
+#add-btn:hover{
     animation: pulse 1s;
     box-shadow: 0 0 0 2em transparent;
     border-color: #ef6eae;
@@ -16,7 +16,7 @@
         box-shadow: 0 0 0 0 #ef6eae;
     }
 }
-#add {
+#add-btn {
     width: 40%;
     background: none;
     border: 2px solid;
