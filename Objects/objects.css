@@ -1,29 +1,45 @@
 #obj-container {
-    height: 85vh;
+    height: 100vh;
     width: 100vw;
-    background: black;
     text-align: center;
+    z-index: 49;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-#add-btn:hover{
-    animation: pulse 1s;
-    box-shadow: 0 0 0 2em transparent;
-    border-color: #ef6eae;
-    color: #fff;
-}
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 #ef6eae;
+@keyframes rotateBtn{
+    from{
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to{
+        transform: translate(-50%, -50%) rotate(180deg);
     }
 }
-#add-btn {
-    width: 40%;
-    background: none;
-    border: 2px solid;
-    font-size: 200%;
-    line-height: 1;
-    margin: 0.5em;
-    padding: 3%;
+#add-btn:hover{
+    box-shadow: 0 0 10px 3px #f2e2ea9f;
     color: #fff;
-    transition: 0.25s;
+}
+#add-btn {
+    width: 200px;
+    height: 200px;
+    background: #1d1d1d;
+    border: 2px solid #f2e2ea;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transition: 250ms;
+    z-index: 9;
+    transform-origin: center center;
+    animation: rotateBtn 20s linear infinite;
+}
+#add-btn-click{
+    font-size: 30px;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
 }

@@ -3,21 +3,20 @@ class Objects extends React.Component{
     super(props);
   }
 
-  // Farmの関数getResourceData()を実行
+  // Farmの関数getResrcData()を実行
   getResrcData = ()=>{
-    return this.props.getResourceData();
+    return this.props.getResrcData();
   }
 
-  addResource = (gain)=>{
-    this.props.addResource(gain);
+  addResrc = (gain)=>{
+    this.props.addResrc(gain);
   }
 
   render(){
     return(
         <div id={"obj-container"}>
-            <div id="add-btn" onClick={()=> this.addResource(1)}>
-              click
-            </div>
+            <div type="button" id="add-btn" onClick={()=> {this.addResrc(1); createMaterial();}}></div>
+            <div id="add-btn-click">PUSH</div>
         </div>
     );
   }

@@ -4,7 +4,7 @@ class Farm extends React.Component{
         super(props);
 
         // State
-        this.state = {
+        this.info = {
             resource: 0, //資源量（変動値）
             timeLog: 0, //プレイ時間（総計）
             gain: 1,
@@ -15,22 +15,18 @@ class Farm extends React.Component{
     }
 
     //資源を生産する際の処理
-    changeResource(gain){
+    changeResrc(gain){
         /*
             gain...増加値
         */
-
-        this.setState({resource: this.state.resource + gain});
-        setTimeout(()=>{
-            console.log(this.sendResourceData());
-        }, 1000)
+        this.info.resource += gain;
     }
 
     // Farmコンポーネントで扱っているデータを、
     // 子コンポーネントで取得するための関数
-    sendResourceData(){
+    sendResrcData(){
         let data = {
-            resource: this.state.resource
+            resource: this.info.resource
         }
         return data;
     }
@@ -39,11 +35,11 @@ class Farm extends React.Component{
         return(
             <div id={"farm-container"}>
                 <Info
-                    getresourceData={this.sendResourceData}
+                    getResrcData={()=> {return this.sendResrcData()}}
                 />
                 <Objects
-                    getResourseData={this.sendResourceData}
-                    addResource={this.changeResource}
+                    getResrcData={()=> {return this.sendResrcData()}}
+                    addResrc={(gain)=> this.changeResrc(gain)}
                 />
             </div>
         );
