@@ -9,6 +9,10 @@
     position: fixed;
     top: 0;
     left: 0;
+    cursor: default;
+    width: 100svw;
+    height: 100svh;
+    overflow: hidden;
 }
 canvas#canvas{
     width: 100%;
@@ -23,7 +27,7 @@ canvas#canvas{
 #site-wrapper{
     box-sizing: border-box;
     width: 100vw;
-    min-height: 100vh;
+    min-height: 100svh;
     padding-bottom: var(--footer-height);
     position: relative;
     overflow-x: hidden;
@@ -42,6 +46,13 @@ footer{
 }
 
 #game-container{
-    height: 100vh;
-    width: 100vw;
+    height: 100svh;
+    width: 100svw;
+}
+
+.pop-up-add{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #f7f7f7;
 }

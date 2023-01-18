@@ -1,6 +1,6 @@
 #obj-container {
-    height: 100vh;
-    width: 100vw;
+    height: 100svh;
+    width: 100svw;
     text-align: center;
     z-index: 49;
     position: absolute;

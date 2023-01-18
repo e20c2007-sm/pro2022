@@ -6,3 +6,12 @@
     z-index: 50;
     color: #ffffff;
 }
+
+#info-container #resrc-viewer{
+    box-sizing: border-box;
+    width: 100svw;
+    padding: 8svh 5svw;
+    font-size: 5rem;
+    font-weight: 900;
+    text-align: center;
+}

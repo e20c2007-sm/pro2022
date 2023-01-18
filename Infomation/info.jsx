@@ -30,7 +30,7 @@ class Info extends React.Component{
     render(){
         return(
             <div id={"info-container"}>
-                <div id="info-nav">
+                <div id="resrc-viewer">
                     {this.state.resrc}
                 </div>
             </div>

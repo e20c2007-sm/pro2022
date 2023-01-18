@@ -15,7 +15,7 @@ class Objects extends React.Component{
   render(){
     return(
         <div id={"obj-container"}>
-            <div type="button" id="add-btn" onClick={()=> {this.addResrc(1); createMaterial();}}></div>
+            <div type="button" id="add-btn" onClick={()=> {this.props.createMaterial({color: "#f2e2ea", limit: 3});}}></div>
             <div id="add-btn-click">PUSH</div>
         </div>
     );
