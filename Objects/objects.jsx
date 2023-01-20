@@ -8,8 +8,10 @@ class Objects extends React.Component{
     return this.props.getResrcData();
   }
 
-  addResrc = (gain)=>{
-    this.props.addResrc(gain);
+  addResrc = ()=>{
+    this.props.addResrc({
+      key: "def"
+    });
   }
 
   render(){

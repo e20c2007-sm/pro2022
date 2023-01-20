@@ -9,6 +9,18 @@ const canvas = $("#canvas")[0];
 let ctx = canvas.getContext("2d");
 let rect = canvas.getBoundingClientRect();
 
+function popUpAdd(list){
+    let elem = $("<div></div>");
+    elem.addClass("pop-up-add");
+    elem.text(`+${list.num}`).css({"position": "absolute", "top": `${list.y}px`, "left": `${list.x}px`, "transform": "translate(-50%, -50%)"});
+    let target = elem.appendTo("#containers");
+    setTimeout(()=>{
+        target.fadeOut(1000, function(){
+            target.remove();
+        });
+    }, 2000);
+}
+
 class Material{
     constructor(data){
         this.x = data.x;
@@ -28,46 +40,41 @@ class Material{
         }, 100);
     }
 
-    popUpAdd(list){
-        let elem = $("<div></div>");
-        elem.addClass("pop-up-add");
-        elem.text(`+${list.num}`).css({"position": "absolute", "top": `${list.y}px`, "left": `${list.x}px`, "transform": "translate(-50%, -50%)"});
-        let target = elem.appendTo("#containers");
-        setTimeout(()=>{
-            target.fadeOut(1000, function(){
-                target.remove();
-            });
-        }, 2000);
-    }
-
     update(){
-        let flag = false;
+        let hit = false;
         this.x += this.xWay;
         this.y += this.yWay;
         if(this.x + (this.r*this.xWay) >= this.maxWidth || this.x + (this.r*this.xWay) <= 0){
             this.xWay *= -1;
-            flag = true;
+            hit = true;
         }
         if(this.y + (this.r*this.yWay) >= this.maxHeight || this.y + (this.r*this.yWay) <= 0){
             this.yWay *= -1;
-            flag = true;
+            hit = true;
         }
 
-        if(flag){
-            this.popUpAdd({
-                "num": 1,
-                "x": this.x,
-                "y": this.y
-            });
-            return flag;
+        if(hit){
+            let list = {
+                flag: hit,
+                x: this.x,
+                y: this.y
+            };
+            
+            return list; 
         }
     }
     draw(ctx){
         if(this.limit && this.limit <= this.count){
-            return "delete";
+            let deletes = {
+                flag: "delete",
+                x: this.x,
+                y: this.y
+            };
+            return deletes;
         }
 
-        let flag = this.update();
+        let list = this.update();
+        console.log(list)
         ctx.save();
         ctx.strokeStyle = this.color;
         ctx.lineWidth = 4;
@@ -80,9 +87,11 @@ class Material{
         ctx.closePath();
         ctx.stroke();
         ctx.restore();
-        if(flag){
-            this.count++;
-            return flag;
+        if(list){
+            if(list.flag){
+                this.count++;
+                return list;
+            }
         }
     }
 }

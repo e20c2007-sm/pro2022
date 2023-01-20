@@ -5,8 +5,9 @@ class Farm extends React.Component{
         super(props);
         this.state = {
             navFlag: false,
-            botPrice: 30,
-            addPrice: 200
+            botPrice: 10,
+            addPrice: 100,
+            upPrice: 1000
         }
 
         // 諸情報
@@ -16,7 +17,8 @@ class Farm extends React.Component{
             gain: 1,
             opt: {
                 // ここで生産量などを増加させる何かしらを追加していく
-                addPush: 1
+                addPush: 1,
+                upPoint: 1
             }
         }
 
@@ -28,11 +30,23 @@ class Farm extends React.Component{
     }
 
     //資源を生産する際の処理
-    changeResrc(gain){
+    changeResrc(data){
         /*
             gain...増加値
         */
-        this.info.resource += gain;
+        if(data.key == "def"){
+            data.gain = this.info.opt.upPoint;
+        }
+        this.info.resource += data.gain;
+
+        let posit = data.data;
+        if(posit){
+            popUpAdd({
+                num: data.gain,
+                x: posit.x,
+                y: posit.y
+            });
+        }
     }
 
     // Farmコンポーネントで扱っているデータを、
@@ -81,12 +95,18 @@ class Farm extends React.Component{
             ctx.clearRect(0, 0, rect.width, rect.height);
             let deleteIndex = [];
             this.materials.forEach((e, i) => {
-                let flag = e.draw(ctx);
-                if(flag){
-                    if(flag == "delete"){
+                let list = e.draw(ctx);
+                if(list){
+                    if(list.flag == "delete"){
                         deleteIndex.push(i);
                     }else{
-                        this.changeResrc(1);
+                        this.changeResrc({
+                            key: "def",
+                            data: {
+                                x: list.x,
+                                y: list.y
+                            }
+                        });
                     }
                 }
             });
@@ -117,9 +137,12 @@ class Farm extends React.Component{
                 });
 
                 let botPrice = this.state.botPrice;
-                this.changeResrc(-(botPrice));
+                this.changeResrc({
+                    key: "origin",
+                    gain: -(botPrice)
+                });
                 this.setState({
-                    botPrice: Math.floor(botPrice*1.1)
+                    botPrice: Math.floor(botPrice*1.2)
                 });
                 break;
             
@@ -127,11 +150,27 @@ class Farm extends React.Component{
             case "plusBox":
                 this.info.opt.addPush++;
                 let addPrice = this.state.addPrice;
-                this.changeResrc(-(addPrice));
+                this.changeResrc({
+                    key: "origin",
+                    gain: -(addPrice)
+                });
                 this.setState({
                     addPrice: Math.floor(addPrice + 100)
                 });
                 break;
+
+            case "upPrice":
+                this.info.opt.upPoint++;
+                let upPrice = this.state.upPrice;
+                this.changeResrc({
+                    key: "origin",
+                    gain: -(upPrice)
+                });
+                this.setState({
+                    upPrice: Math.floor(upPrice + 1000)
+                });
+                break;
+            
             default:
                 console.log("不具合です。");
         }
@@ -166,13 +205,13 @@ class Farm extends React.Component{
             },
             {
                 text: <span>Point<br/>UP</span>,
-                id: "times-btn",
-                key: "gainTimes",
+                id: "up-price-btn",
+                key: "upPrice",
                 price: 
                 <div className="price-content">
                     <div className="set-tri"></div>
                     <div className="price-viewer">
-                        {/* {this.state.botPrice} */500}
+                        {this.state.upPrice}
                     </div>
                 </div>,
             }
@@ -201,7 +240,7 @@ class Farm extends React.Component{
                 />
                 <Objects
                     getResrcData={()=> {return this.sendResrcData()}}
-                    addResrc={(gain)=> this.changeResrc(gain)}
+                    addResrc={(key)=> this.changeResrc({key: key})}
                     createMaterial={(opt)=> this.createMaterial(opt)}
                 />
                 <div id="opt-nav">
