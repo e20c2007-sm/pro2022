@@ -5,6 +5,13 @@ const def = {
     nums: [1, -1]
 };
 
+let rSize;
+if(def.size.w / 150 < 5){
+    rSize = 5;
+}else{
+    rSize = def.size.w / 200;
+}
+
 const canvas = $("#canvas")[0];
 let ctx = canvas.getContext("2d");
 let rect = canvas.getBoundingClientRect();
@@ -74,10 +81,9 @@ class Material{
         }
 
         let list = this.update();
-        console.log(list)
         ctx.save();
         ctx.strokeStyle = this.color;
-        ctx.lineWidth = 4;
+        ctx.lineWidth = rSize/5;
         ctx.beginPath();
         ctx.translate(this.x+this.r, this.y+this.r);
         this.deg += 0.5;

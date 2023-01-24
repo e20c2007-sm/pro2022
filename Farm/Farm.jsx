@@ -7,8 +7,13 @@ class Farm extends React.Component{
             navFlag: false,
             botPrice: 10,
             addPrice: 100,
-            upPrice: 1000
+            upPrice: 300,
+            botSwitch: false,
+            addSwitch: false,
+            upSwitch: false
         }
+
+        this.interval;
 
         // 諸情報
         this.info = {
@@ -27,6 +32,28 @@ class Farm extends React.Component{
 
         // 開始したかどうか
         this.startFlag = false;
+    }
+
+    componentDidMount(){
+        this.interval = setInterval(()=>{
+            let botSwitch = false;
+            let addSwitch = false;
+            let upSwitch = false;
+            if(this.info.resource >= this.state.botPrice){
+                botSwitch = true;
+            }
+            if(this.info.resource >= this.state.addPrice){
+                addSwitch = true;
+            }
+            if(this.info.resource >= this.state.upPrice){
+                upSwitch = true;
+            }
+            this.setState({
+                botSwitch: botSwitch,
+                addSwitch: addSwitch,
+                upSwitch: upSwitch
+            });
+        }, 100);
     }
 
     //資源を生産する際の処理
@@ -65,7 +92,7 @@ class Farm extends React.Component{
                 y: def.size.h/2,
                 xWay: (Math.random(1)+1)*def.nums[randomNum(2)],
                 yWay: (Math.random(1)+1)*def.nums[randomNum(2)],
-                r: 10,
+                r: rSize,
                 width: def.size.w,
                 height: def.size.h,
                 color: opt.color,
@@ -142,7 +169,7 @@ class Farm extends React.Component{
                     gain: -(botPrice)
                 });
                 this.setState({
-                    botPrice: Math.floor(botPrice*1.2)
+                    botPrice: Math.floor(botPrice + 10)
                 });
                 break;
             
@@ -158,7 +185,8 @@ class Farm extends React.Component{
                     addPrice: Math.floor(addPrice + 100)
                 });
                 break;
-
+            
+            // Point Upみたいな処理
             case "upPrice":
                 this.info.opt.upPoint++;
                 let upPrice = this.state.upPrice;
@@ -167,7 +195,7 @@ class Farm extends React.Component{
                     gain: -(upPrice)
                 });
                 this.setState({
-                    upPrice: Math.floor(upPrice + 1000)
+                    upPrice: Math.floor(upPrice * 1.2)
                 });
                 break;
             
@@ -180,40 +208,49 @@ class Farm extends React.Component{
 
         let optElem = [
             {
-                text: <span>Resource<br/>BOT</span>,
+                text: <span>Box Bot +1</span>,
                 id: "bot-btn",
+                switch: "botSwitch",
                 key: "resrcBot",
                 price: 
                     <div className="price-content">
-                        <div className="set-tri"></div>
-                        <div className="price-viewer">
-                            {this.state.botPrice}
+                        <div className="price-content-inner">
+                            <div className="set-tri"></div>
+                            <div className="price-viewer">
+                                {this.state.botPrice}
+                            </div>
                         </div>
                     </div>,
             },
             {
-                text: <span>Box<br/>+1</span>,
+                text: <span>Get Box +1</span>,
                 id: "plus-btn",
+                switch: "addSwitch",
                 key: "plusBox",
                 price: 
                     <div className="price-content">
-                        <div className="set-tri"></div>
-                        <div className="price-viewer">
-                            {this.state.addPrice}
+                        <div className="price-content-inner">
+                            <div className="set-tri"></div>
+                            <div className="price-viewer">
+                                {this.state.addPrice}
+                            </div>
                         </div>
                     </div>,
             },
             {
-                text: <span>Point<br/>UP</span>,
+                text: <span>Point UP</span>,
                 id: "up-price-btn",
+                switch: "upSwitch",
                 key: "upPrice",
                 price: 
-                <div className="price-content">
-                    <div className="set-tri"></div>
-                    <div className="price-viewer">
-                        {this.state.upPrice}
-                    </div>
-                </div>,
+                    <div className="price-content">
+                        <div className="price-content-inner">
+                            <div className="set-tri"></div>
+                            <div className="price-viewer">
+                                {this.state.upPrice}
+                            </div>
+                        </div>
+                    </div>,
             }
         ]
 
@@ -221,12 +258,13 @@ class Farm extends React.Component{
         optElem.forEach(e => {
             opts.push(
                 <div 
-                    className="opt-nav-elem"
+                    className={this.state[e.switch] ? "opt-nav-elem": "opt-nav-hide"}
                     id={e.id}
                     onClick={()=>{
                         this.onClickOpt(e.key);
                     }}
                 >
+                    <div className="corner"></div>
                     {e.text}
                     {e.price}
                 </div>

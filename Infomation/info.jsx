@@ -31,6 +31,7 @@ class Info extends React.Component{
         return(
             <div id={"info-container"}>
                 <div id="resrc-viewer">
+                    <div id="box-icon"></div>
                     {this.state.resrc}
                 </div>
             </div>
