@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     z-index: 100;
+    transition: 2s;
 }
 .opt-nav-elem, .opt-nav-hide{
     box-sizing: border-box;

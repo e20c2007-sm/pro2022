@@ -61,6 +61,11 @@ class Material{
         }
 
         if(hit){
+            playSound({
+                path: `${soundsDir}/hit/hit${randomNum(6)+1}.mp3`,
+                key: "se"
+            });
+
             let list = {
                 flag: hit,
                 x: this.x,

@@ -4,13 +4,14 @@ class Farm extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            navFlag: false,
+            startRdy: false,
             botPrice: 10,
-            addPrice: 100,
-            upPrice: 300,
+            addPrice: 150,
+            upPrice: 200,
             botSwitch: false,
             addSwitch: false,
-            upSwitch: false
+            upSwitch: false,
+            readyOk: false
         }
 
         this.interval;
@@ -19,6 +20,8 @@ class Farm extends React.Component{
         this.info = {
             resource: 0, //資源量（変動値）
             timeLog: 0, //プレイ時間（総計）
+            resrcLog: 0, //資源量（総計）
+            botsLog: 0, //ボット数（総計）
             gain: 1,
             opt: {
                 // ここで生産量などを増加させる何かしらを追加していく
@@ -30,8 +33,11 @@ class Farm extends React.Component{
         // 小さい箱の収納
         this.materials = [];
 
-        // 開始したかどうか
-        this.startFlag = false;
+        // ゲームの状態
+        this.gameState = {
+            startFlag: false,
+            stopFlag: false
+        }
     }
 
     componentDidMount(){
@@ -56,11 +62,14 @@ class Farm extends React.Component{
         }, 100);
     }
 
+    // ゲームをストップさせる
+    gameStoper = ()=>{
+        this.gameState.stopFlag = !this.gameState.stopFlag;
+    }
+
     //資源を生産する際の処理
     changeResrc(data){
-        /*
-            gain...増加値
-        */
+
         if(data.key == "def"){
             data.gain = this.info.opt.upPoint;
         }
@@ -74,13 +83,24 @@ class Farm extends React.Component{
                 y: posit.y
             });
         }
+
+        if(!(this.state.startRdy) && !(this.state.readyOk)){
+            if(this.info.resource >= 10){
+                this.setState({
+                    readyOk: true
+                });
+            }
+        }
     }
 
     // Farmコンポーネントで扱っているデータを、
     // 子コンポーネントで取得するための関数
     sendResrcData(){
         let data = {
-            resource: this.info.resource
+            resource: this.info.resource,
+            time: this.info.timeLog,
+            bots: this.info.botsLog,
+            allResrc: this.info.resrcLog
         }
         return data;
     }
@@ -99,9 +119,9 @@ class Farm extends React.Component{
                 limit: opt.limit
             })
         );
-        if(this.materials.length <= 1 && this.startFlag == false){
+        if(this.materials.length <= 1 && this.gameState.startFlag == false){
             this.materialsAnime();
-            this.startFlag = true;
+            this.gameState.startFlag = true;
         }
         if(opt.limit && this.info.opt.addPush > 1){
             if(!(opt.loops)){
@@ -115,10 +135,14 @@ class Farm extends React.Component{
                 }, 200);
             }
         }
+        playSound({
+            path: `${soundsDir}/drop.mp3`,
+            key: "se"
+        });
     }
 
     materialsAnime = () => {
-        if(this.materials.length > 0){
+        if(this.materials.length > 0 && this.gameState.stopFlag == false){
             ctx.clearRect(0, 0, rect.width, rect.height);
             let deleteIndex = [];
             this.materials.forEach((e, i) => {
@@ -146,14 +170,26 @@ class Farm extends React.Component{
 
     // オプションのクリック時処理
     onClickOpt(key){
+        playSound({
+            path: `${soundsDir}/click.mp3`,
+            key: "se"
+        });
         switch(key){
             // 初期ボタンが押された処理
             case "create":
-                this.setState({
-                    navFlag: true
-                });
                 this.createMaterial({
                     color: "#00e1ff"
+                });
+
+                this.setState({
+                    startRdy: true,
+                    readyOk: ""
+                });
+                this.info.resource = 0;
+                playSound({
+                    path: `${soundsDir}/mainBgm.mp3`,
+                    key: "bgm",
+                    looped: true
                 });
                 break;
 
@@ -182,7 +218,7 @@ class Farm extends React.Component{
                     gain: -(addPrice)
                 });
                 this.setState({
-                    addPrice: Math.floor(addPrice + 100)
+                    addPrice: Math.floor(addPrice * 2)
                 });
                 break;
             
@@ -271,19 +307,40 @@ class Farm extends React.Component{
             )
         });
 
+        let elems = [
+            <Info
+                getResrcData={()=> {return this.sendResrcData()}}
+            />,
+            <Archive 
+                gameStoper={() => this.gameStoper()}
+                getResrcData={()=>{return this.sendResrcData()}}
+            />,
+            <div id="opt-nav">
+                {opts}
+            </div>
+        ];
+
+        let beginElems = 
+            <div className="shadow-screen" style={{"background": "#1d1d1dea", "width": "100svw", "height": "100svh", "position": "fixed", "top": 0, "left": 0, "pointerEvents": this.state.readyOk ? "auto" : "none", "zIndex": 450, "transition": "3s", "opacity": this.state.readyOk ? 1 : 0}}>
+                <div className="shadow-screen-inner" style={{"width": "100%", "height": "100%", "position": "relative", "pointerEvents": this.state.readyOk ? "auto" : "none"}}>
+                    <div className="title-text" style={{"color": "#00e1ff", "display": "flex", "flexDirection": "column", "alignItems": "center", "justifyContent": "space-between", "boxSizing": "border-box", "width": "100svw", "height": "40%", "padding": "50px 15svw","position": "absolute", "top": "25%", "left": "50%", "transform": "translateX(-50%)", "pointerEvents": this.state.readyOk ? "auto" : "none", "zIndex": 499}}>
+                        <div style={{"width": "50%", "minWidth": "300px", "fontSize": "100px", "fontWeight": 900, "textAlign": "left"}}>Few</div>
+                        <div style={{"width": "50%", "minWidth": "300px", "fontSize": "60px", "fontWeight": 900, "textAlign": "right"}}>Boxes</div>
+                        <div style={{"width": "50%", "minWidth": "300px", "fontSize": "43px", "fontWeight": 900, "textAlign": "center"}}>Clicker</div>
+                    </div>
+                    <div id="opt-nav" style={{"zIndex": 500}}><div className="opt-nav-elem" onClick={()=>{if(this.state.readyOk){this.onClickOpt("create")}}}>START</div></div>
+                </div>
+            </div>
+
         return(
             <div id={"farm-container"}>
-                <Info
-                    getResrcData={()=> {return this.sendResrcData()}}
-                />
+                {this.state.startRdy ? elems : beginElems}
                 <Objects
                     getResrcData={()=> {return this.sendResrcData()}}
                     addResrc={(key)=> this.changeResrc({key: key})}
                     createMaterial={(opt)=> this.createMaterial(opt)}
                 />
-                <div id="opt-nav">
-                    {this.state.navFlag ? opts : <div className="opt-nav-elem" onClick={()=>{this.onClickOpt("create")}}>START</div>}
-                </div>
+
             </div>
         );
     }
