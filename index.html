@@ -12,12 +12,52 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     
+    <script>
+        function randomNum(num){
+            return Math.floor(Math.random() * num);
+        }
+
+        function factorialNum(num, sum, fact){
+            fact--;
+            if(fact > 0){
+                sum *= num;
+                return factorialNum(num, sum, fact);
+            }else{
+                return sum;
+            }
+        }
+
+        function convertNum(num){
+            const k = factorialNum(10, 10, 3);
+            const m = factorialNum(10, 10, 6);
+            const g = factorialNum(10, 10, 9);
+            const t = factorialNum(10, 10, 12);
+
+            let unit = "";
+            if(t <= num){
+                num = Math.floor((num/t)*100) / 100;
+                unit = " T";
+            }else if(g <= num){
+                num = Math.floor((num/g)*100) / 100;
+                unit = " G";
+            }else if(m <= num){
+                num = Math.floor((num/m)*100) / 100;
+                unit = " M";
+            }else if(k <= num){
+                num = Math.floor((num/k)*100) / 100;
+                unit = " K";
+            }
+
+            return `${num}${unit}`;
+        }
+    </script>
     <script src="./sound.js"></script>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./main.css">
     <link rel="stylesheet" href="./Farm/opt.css">
     <link rel="stylesheet" href="./Infomation/info.css">
     <link rel="stylesheet" href="./Objects/objects.css">
+    <link rel="stylesheet" href="./Menu/menu.css">
 </head>
 <body>
     <div id="containers"></div>
@@ -27,7 +67,7 @@
     <script src="./Farm/Farm.jsx" type="text/babel"></script>
     <script src="./Objects/objects.jsx" type="text/babel"></script>
     <script src="./Infomation/info.jsx" type="text/babel"></script>
-    <script src="./Archive/Archive.jsx" type="text/babel"></script>
+    <script src="./Menu/menu.jsx" type="text/babel"></script>
     <script src="./main.jsx" type="text/babel"></script>
 </body>
 </html>

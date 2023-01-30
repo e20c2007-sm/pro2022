@@ -1,0 +1,126 @@
+#menu-container{
+    width: 100svw;
+    height: 100svh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    color: white;
+    z-index: 600;
+}
+#menu-container-inner{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#menu-btn-container{
+    z-index: 620;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.menu-btn{
+    box-sizing: border-box;
+    pointer-events: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border: 3px #f7f7f7 solid;
+}
+
+#bg-screen{
+    background: #000000f0;
+    position: absolute;
+    width: 100svw;
+    height: 100svh;
+    top: 0;
+    left: 0;
+    z-index: 601;
+}
+
+
+/* Archive & Setting */
+#archive-container, #setting-container{
+    width: 100svw;
+    height: 100svh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-title{
+    box-sizing: border-box;
+    height: 100px;
+    font-size: 50px;
+    font-family: 900;
+    color: #ededed;
+    letter-spacing: 6px;
+    padding: 25px 50px;
+    border-bottom: solid 5px #c8c8c8;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.menu-title-sub{
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #a7a7a7;
+    letter-spacing: 3px;
+    padding: 10px 0;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Setting */
+#setting-container{
+    gap: 80px;
+}
+
+.range-name{
+    font-size: 40px;
+    font-weight: 900;
+    color: #ededed;
+    text-align: left;
+    padding: 0 15px;
+    margin-bottom: 25px;
+}
+
+.volume-range{
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background: linear-gradient(-184.5deg, #1d1d1d00 0%, #1d1d1d00 50%, #6f6f6ff2 50%, #6f6f6ff2 100%);
+    height: 20px;
+    width: 250px;
+    border-radius: 0;
+    outline: 0;
+}
+.volume-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #00ccff;
+    width: 20px;
+    height: 33px; 
+}
+.volume-range::-moz-range-thumb {
+    background: #00ccff;
+    width: 20px;
+    height: 33px;
+}
+.volume-range::-moz-focus-outer {
+    border: 0;
+}
+.volume-range:active::-webkit-slider-thumb {
+    box-shadow: 0px 5px 10px -2px #00e1ffa4;
+}

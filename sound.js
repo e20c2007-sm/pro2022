@@ -5,14 +5,22 @@ let volumes = {
     "se": 0
 }
 
+let loopSound = {
+    "bgm": [],
+    "se": []
+}
+
 function playSound(data){
-    console.table(data);
     let sound = new Audio(data.path);
     sound.volume = volumes[data.key];
     if(data.looped){
         sound.loop = true;
     }
     sound.play();
+
+    if(sound.loop){
+        loopSound[data.key].push(sound);
+    }
 }
 
 function volumeChange(data){
@@ -20,15 +28,21 @@ function volumeChange(data){
     switch(data.key){
         case "bgm":
             volumes.bgm = volume;
+            loopSound.bgm.forEach(e => {
+                e.volume = volume;
+            });
             break;
 
         case "se":
             volumes.se = volume;
+            loopSound.se.forEach(e => {
+                e.volume = volume;
+            });
             break;
         
         case "all":
-            volumes.bgm = volume;
-            volumes.se = volume;
+            volumeChange({key: "bgm", volume: volume});
+            volumeChange({key: "se", volume: volume});
             break;
     }
 }

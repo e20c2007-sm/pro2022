@@ -1,3 +1,4 @@
+
 $("#canvas").attr({"width": $(window).width(), "height": $(window).height()});
 
 const def = {
@@ -26,6 +27,20 @@ function popUpAdd(list){
             target.remove();
         });
     }, 2000);
+}
+
+function popAnimationAdd(x, y, key){
+    switch(key){
+        case "opt":
+            let elem = $("<img src='./animation/popAnimation2.png'></img>");
+            elem.addClass("pop-animation-opt");
+            elem.css({"position": "absolute", "top": `${y}px`, "left": `${x}px`, "transform": "translate(-50%, -50%)"});
+            let target = elem.appendTo("#containers");
+            setTimeout(()=>{
+                target.remove();
+            }, 1500);
+            break;
+    }
 }
 
 class Material{
@@ -105,8 +120,4 @@ class Material{
             }
         }
     }
-}
-
-function randomNum(num){
-    return Math.floor(Math.random() * num);
 }

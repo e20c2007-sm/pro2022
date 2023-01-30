@@ -11,7 +11,10 @@ class Farm extends React.Component{
             botSwitch: false,
             addSwitch: false,
             upSwitch: false,
-            readyOk: false
+            readyOk: false,
+            botLevel: 0,
+            addLevel: 0,
+            upLevel: 0
         }
 
         this.interval;
@@ -21,7 +24,7 @@ class Farm extends React.Component{
             resource: 0, //資源量（変動値）
             timeLog: 0, //プレイ時間（総計）
             resrcLog: 0, //資源量（総計）
-            botsLog: 0, //ボット数（総計）
+            boxLog: 0, //箱の生成数（総計）
             gain: 1,
             opt: {
                 // ここで生産量などを増加させる何かしらを追加していく
@@ -85,7 +88,7 @@ class Farm extends React.Component{
         }
 
         if(!(this.state.startRdy) && !(this.state.readyOk)){
-            if(this.info.resource >= 10){
+            if(this.info.resource >= 1){
                 this.setState({
                     readyOk: true
                 });
@@ -169,11 +172,12 @@ class Farm extends React.Component{
     }
 
     // オプションのクリック時処理
-    onClickOpt(key){
+    onClickOpt(key, e){
         playSound({
             path: `${soundsDir}/click.mp3`,
             key: "se"
         });
+        
         switch(key){
             // 初期ボタンが押された処理
             case "create":
@@ -183,7 +187,8 @@ class Farm extends React.Component{
 
                 this.setState({
                     startRdy: true,
-                    readyOk: ""
+                    readyOk: "",
+                    botLevel: this.state.botLevel + 1
                 });
                 this.info.resource = 0;
                 playSound({
@@ -205,8 +210,10 @@ class Farm extends React.Component{
                     gain: -(botPrice)
                 });
                 this.setState({
-                    botPrice: Math.floor(botPrice + 10)
+                    botPrice: Math.floor(botPrice + 10),
+                    botLevel: this.state.botLevel + 1
                 });
+                popAnimationAdd(e.clientX, e.clientY, "opt");
                 break;
             
             //box+1ボタンの処理
@@ -218,8 +225,10 @@ class Farm extends React.Component{
                     gain: -(addPrice)
                 });
                 this.setState({
-                    addPrice: Math.floor(addPrice * 2)
+                    addPrice: Math.floor(addPrice * 2),
+                    addLevel: this.state.addLevel + 1
                 });
+                popAnimationAdd(e.clientX, e.clientY, "opt");
                 break;
             
             // Point Upみたいな処理
@@ -231,8 +240,10 @@ class Farm extends React.Component{
                     gain: -(upPrice)
                 });
                 this.setState({
-                    upPrice: Math.floor(upPrice * 1.2)
+                    upPrice: Math.floor(upPrice * 1.2),
+                    upLevel: this.state.upLevel + 1
                 });
+                popAnimationAdd(e.clientX, e.clientY, "opt");
                 break;
             
             default:
@@ -257,6 +268,16 @@ class Farm extends React.Component{
                             </div>
                         </div>
                     </div>,
+                level: 
+                <div
+                    className="level-content"
+                    style={{
+                        "opacity": (this.state.botLevel != 0) ? 1 : 0
+                    }}
+                >
+                    Lv.<span className="level-entity">{this.state.botLevel}</span>
+                </div>
+                    
             },
             {
                 text: <span>Get Box +1</span>,
@@ -272,6 +293,15 @@ class Farm extends React.Component{
                             </div>
                         </div>
                     </div>,
+                level: 
+                <div
+                    className="level-content"
+                    style={{
+                        "opacity": (this.state.addLevel != 0) ? 1 : 0
+                    }}
+                >
+                    Lv.<span className="level-entity">{this.state.addLevel}</span>
+                </div>
             },
             {
                 text: <span>Point UP</span>,
@@ -287,6 +317,17 @@ class Farm extends React.Component{
                             </div>
                         </div>
                     </div>,
+                level: 
+                    <div
+                        className="level-content"
+                        style={{
+                            "opacity": (this.state.upLevel != 0) ? 1 : 0
+                        }}
+                    >
+                        Lv.<span
+                        className="level-entity">{this.state.upLevel}</span>
+                    </div>
+
             }
         ]
 
@@ -296,13 +337,14 @@ class Farm extends React.Component{
                 <div 
                     className={this.state[e.switch] ? "opt-nav-elem": "opt-nav-hide"}
                     id={e.id}
-                    onClick={()=>{
-                        this.onClickOpt(e.key);
+                    onClick={(event)=>{
+                        this.onClickOpt(e.key, event);
                     }}
                 >
-                    <div className="corner"></div>
+                    {e.level}
                     {e.text}
                     {e.price}
+                    <div className="corner"></div>
                 </div>
             )
         });
@@ -311,9 +353,9 @@ class Farm extends React.Component{
             <Info
                 getResrcData={()=> {return this.sendResrcData()}}
             />,
-            <Archive 
+            <Menu
                 gameStoper={() => this.gameStoper()}
-                getResrcData={()=>{return this.sendResrcData()}}
+                getResrcData={()=> {return this.sendResrcData()}}
             />,
             <div id="opt-nav">
                 {opts}
@@ -340,7 +382,6 @@ class Farm extends React.Component{
                     addResrc={(key)=> this.changeResrc({key: key})}
                     createMaterial={(opt)=> this.createMaterial(opt)}
                 />
-
             </div>
         );
     }

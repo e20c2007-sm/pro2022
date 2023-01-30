@@ -13,7 +13,7 @@ class Info extends React.Component{
     }
 
     resrcCheck = ()=>{
-        let srcNum = this.getResrcData().resource;
+        let srcNum = convertNum(this.getResrcData().resource);
         if(srcNum != this.state.resrc){
             this.setState({
                 resrc: srcNum

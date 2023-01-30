@@ -37,6 +37,27 @@
     color: #1d1d1d;
 }
 
+.level-content{
+    position: absolute;
+    box-sizing: border-box;
+    max-width: 250px;
+    height: 25px;
+    font-size: 15px;
+    line-height: 25px;
+    padding: 0.5px 0 0.5px 10px;
+    color: #59bff2;
+    backdrop-filter: blur(50px) opacity(90%);
+    top: -30px;
+    left: -5px;
+    text-align: left;
+}
+
+.level-entity{
+    color: #02fdf9;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
 .price-content{
     position: absolute;
     box-sizing: border-box;
@@ -53,6 +74,7 @@
     align-items: center;
     justify-content: flex-end;
 }
+
 .corner{
     width: 30px;
     height: 30px;

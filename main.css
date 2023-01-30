@@ -56,3 +56,10 @@ footer{
     font-weight: 900;
     color: #f7f7f7;
 }
+
+.pop-animation-opt{
+    width: 250px;
+    height: 250px;
+    z-index: 550;
+    pointer-events: none;
+}
