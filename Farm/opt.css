@@ -45,17 +45,32 @@
     font-size: 15px;
     line-height: 25px;
     padding: 0.5px 0 0.5px 10px;
-    color: #59bff2;
     backdrop-filter: blur(50px) opacity(90%);
     top: -30px;
     left: -5px;
     text-align: left;
 }
-
 .level-entity{
-    color: #02fdf9;
     font-size: 18px;
     margin-left: 5px;
+}
+#bot-btn .level-content{
+    color: #59bff2;
+}
+#bot-btn  .level-entity{
+    color: #02fdf9;
+}
+#plus-btn .level-content{
+    color: #f26859;
+}
+#plus-btn .level-entity{
+    color: #ff430f;
+}
+#up-price-btn .level-content{
+    color: #ffd262;
+}
+#up-price-btn .level-entity{
+    color: #ffaa00;
 }
 
 .price-content{

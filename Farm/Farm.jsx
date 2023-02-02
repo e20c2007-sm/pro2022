@@ -103,7 +103,12 @@ class Farm extends React.Component{
             resource: this.info.resource,
             time: this.info.timeLog,
             bots: this.info.botsLog,
-            allResrc: this.info.resrcLog
+            allResrc: this.info.resrcLog,
+            level: {
+                botLvr: this.state.botLevel,
+                addLvr: this.state.addLevel,
+                upLvr: this.state.upLevel
+            }
         }
         return data;
     }
